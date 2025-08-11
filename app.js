@@ -1,6 +1,12 @@
 const express = require('express')
+require('dotenv').config()
 const app = express()
 const port = 5000
+
+const connectDB=require('./connection')
+connectDB()
+app.use(express.json())
+const employeeModels=require('./models/employeeModels')
 
 const path = require('path');
 app.set('view engine', 'ejs')
@@ -14,12 +20,7 @@ const navbar = [{ link: '/basic', name: 'home' },
 ];
 
 const basicroutes = require('./routes/basicRoutes')(navbar);
-console.log("Basic routes loaded ");
 app.use('/basic', basicroutes);
-
-app.get('/', (req, res) => {
-    res.send("Server is running . Go to /basic");
-  });
 
 app.listen(port, () => {
     console.log(`Server is running at ${port}`)
